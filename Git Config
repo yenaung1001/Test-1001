@@ -1,0 +1,76 @@
+config editor
+
+✅ FIX (HTTPS method — most common)
+1. Fully remove cached GitHub login
+
+Run this in Git Bash:
+
+printf "protocol=https\nhost=github.com\n" | git credential-manager-core erase
+2. Also remove saved Windows credentials (VERY IMPORTANT)
+
+On Windows:
+
+Open Control Panel
+Go to Credential Manager
+Click Windows Credentials
+Delete anything like:
+git:https://github.com
+github.com
+3. Check your remote (just to confirm)
+git remote -v
+
+Make sure it is:
+
+https://github.com/yenaung1001/Test-1001.git
+
+If not:
+
+git remote set-url origin https://github.com/yenaung1001/Test-1001.git
+4. Push again (this forces re-login)
+git push -u origin main
+
+Now Git will ask:
+
+Username → yenaung1001
+Password → GitHub Personal Access Token (NOT password)
+🔑 IMPORTANT: Use Personal Access Token
+
+On GitHub:
+
+Settings → Developer settings → Tokens
+Create token with repo permission
+
+Paste that as password.
+
+⚠️ If it STILL uses yenaung56
+
+That means Windows is still auto-filling credentials.
+
+Run:
+
+git config --global credential.helper manager-core
+
+Then retry push.
+
+🚀 BEST LONG-TERM FIX (recommended)
+
+Switch to SSH so this never happens again:
+
+git remote set-url origin git@github.com:yenaung1001/Test-1001.git
+
+Then you authenticate once with SSH key and never deal with 403 again.
+
+🧠 Summary
+
+You are stuck because:
+
+Git is fine ✅
+Repo is fine ✅
+Authentication is wrong ❌ (yenaung56 is being used)
+
+Fix = clear cached credentials + login as correct user.
+
+If you want, I can help you:
+
+switch completely to SSH (best option)
+or fix multi-account GitHub setup (two accounts on same PC)
